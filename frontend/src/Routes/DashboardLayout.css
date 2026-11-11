@@ -1,0 +1,34 @@
+.rf-shell {
+  min-height: 100vh;
+  background-color: var(--color-slate-50, #f8fafc);
+}
+
+.rf-shell__content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin-left: 264px;
+  transition: margin-left 0.2s ease;
+}
+
+.rf-shell--collapsed .rf-shell__content {
+  margin-left: 76px;
+}
+
+.rf-shell__main {
+  flex: 1;
+  /* padding: 28px 32px 40px; */
+  padding: 10px 25px 25px;
+}
+
+@media (max-width: 1023px) {
+  .rf-shell__content,
+  .rf-shell--collapsed .rf-shell__content {
+    margin-left: 0;
+  }
+
+  .rf-shell__main {
+    /* padding: 20px 16px 32px; */
+    padding: 10px 25px 25px;
+  }
+}

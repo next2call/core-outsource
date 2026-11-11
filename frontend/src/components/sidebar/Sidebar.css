@@ -1,0 +1,468 @@
+/* ==========================================================================
+   Ringfy Sidebar, dark mode tokens (graphite, matches theme.css)
+   ========================================================================== */
+
+.dark-mode .rf-sidebar {
+  --color-white: #181b22;
+  --color-slate-50: #20242c;
+  --color-slate-200: #2b303a;
+  --color-slate-400: #5d6573;
+  --color-slate-500: #8b93a1;
+  --color-slate-600: #b4bac4;
+  --color-slate-700: #cdd2da;
+  --color-slate-900: #e3e6eb;
+
+  --color-indigo-50: rgba(129, 140, 248, 0.12);
+  --color-indigo-100: #282b52;
+  --color-indigo-600: #a4a8f3;
+
+  --color-red-50: #3a1d20;
+  --color-red-600: #ef8585;
+}
+
+.dark-mode .rf-sidebar__section {
+  color: var(--color-slate-500);
+}
+
+.dark-mode .rf-sb-overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* ==========================================================================
+   Ringfy Sidebar, shares tokens with LoginPage.css (--color-* vars).
+   Falls back to literal values so this file also works standalone.
+   ========================================================================== */
+
+.rf-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+  width: 264px;
+  background-color: var(--color-white, #ffffff);
+  border-right: 1px solid var(--color-slate-200, #e2e8f0);
+  transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s ease;
+}
+
+.rf-sidebar__section {
+  padding: 14px 12px 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.rf-sidebar--collapsed .rf-sidebar__section {
+  display: none;
+}
+
+.rf-sidebar--collapsed {
+  width: 76px;
+}
+
+/* ---------- Top / logo ---------- */
+
+.rf-sidebar__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 68px;
+  border-bottom: 1px solid var(--color-slate-200, #e2e8f0);
+}
+
+.rf-sidebar--collapsed .rf-sidebar__top {
+  justify-content: center;
+  padding: 0;
+}
+
+.rf-sb-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.rf-sb-logo svg {
+  flex-shrink: 0;
+  filter: drop-shadow(0 3px 6px rgba(79, 70, 229, 0.25));
+}
+
+.rf-sb-logo__text {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-slate-900, #0f172a);
+  white-space: nowrap;
+}
+
+.rf-sb-logo__text-accent {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.rf-sb-mobile-close {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: none;
+  border: none;
+  color: var(--color-slate-500, #64748b);
+  cursor: pointer;
+}
+
+.rf-sb-mobile-close:hover {
+  background-color: var(--color-slate-50, #f8fafc);
+}
+
+/* ---------- Nav ---------- */
+
+.rf-sidebar__nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-slate-200, #e2e8f0) transparent;
+}
+
+.rf-sidebar__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-slate-600, #475569);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.rf-sidebar__item:hover {
+  background-color: var(--color-slate-50, #f8fafc);
+  color: var(--color-slate-900, #0f172a);
+}
+
+.rf-sidebar__item:hover .rf-sidebar__item-icon {
+  transform: translateX(1px);
+}
+
+.rf-sidebar__item--active,
+.rf-sidebar__item--active:hover {
+  background: linear-gradient(90deg, var(--color-indigo-50, #eef2ff), transparent 140%);
+  color: var(--color-indigo-600, #4f46e5);
+  font-weight: 600;
+}
+
+/* accent bar on the sidebar edge for the current page */
+.rf-sidebar__item--active::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 7px;
+  bottom: 7px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(180deg, #6366f1, #8b5cf6);
+}
+
+.rf-sidebar__item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  transition: transform 0.15s ease;
+}
+
+.rf-sidebar__item-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rf-sidebar--collapsed .rf-sidebar__item {
+  justify-content: center;
+  padding: 11px;
+}
+
+/* ---------- Groups (Reports etc.) ---------- */
+
+.rf-sidebar__group-btn {
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.rf-sidebar__group-btn:hover {
+  background-color: var(--color-slate-50, #f8fafc);
+}
+
+.rf-sidebar__item--parent-active {
+  color: var(--color-indigo-600, #4f46e5);
+  font-weight: 600;
+}
+
+.rf-sidebar--collapsed .rf-sidebar__item--parent-active {
+  background-color: var(--color-indigo-50, #eef2ff);
+}
+
+.rf-sidebar__group-chevron {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--color-slate-400, #94a3b8);
+  transition: transform 0.2s ease;
+}
+
+.rf-sidebar__group--open .rf-sidebar__group-chevron {
+  transform: rotate(180deg);
+}
+
+.rf-sidebar__sub {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 2px 0 6px 21px;
+  padding-left: 10px;
+  border-left: 1px solid var(--color-slate-200, #e2e8f0);
+  animation: rf-sb-drop 0.18s ease both;
+}
+
+@keyframes rf-sb-drop {
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: none; }
+}
+
+.rf-sidebar__subitem {
+  position: relative;
+  display: block;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--color-slate-500, #64748b);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.rf-sidebar__subitem:hover {
+  background-color: var(--color-slate-50, #f8fafc);
+  color: var(--color-slate-900, #0f172a);
+}
+
+.rf-sidebar__subitem--active {
+  background-color: var(--color-indigo-50, #eef2ff);
+  color: var(--color-indigo-600, #4f46e5);
+  font-weight: 600;
+}
+
+/* Flyout shown on hover when the sidebar is collapsed.
+   Fixed so it is not clipped by the scrolling nav; left padding bridges the gap to the icon. */
+.rf-sb-flyout {
+  position: fixed;
+  left: 64px;
+  z-index: 160;
+  padding-left: 12px;
+}
+
+.rf-sb-flyout__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 200px;
+  padding: 6px;
+  background-color: var(--color-white, #ffffff);
+  border: 1px solid var(--color-slate-200, #e2e8f0);
+  border-radius: 12px;
+  box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.2);
+  animation: rf-sb-drop 0.15s ease both;
+}
+
+.rf-sb-flyout__title {
+  padding: 6px 10px 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-slate-400, #94a3b8);
+}
+
+/* ---------- Bottom section ---------- */
+
+.rf-sidebar__bottom {
+  padding: 12px;
+  border-top: 1px solid var(--color-slate-200, #e2e8f0);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rf-sidebar__collapse-btn {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: none;
+  background: none;
+  font-size: 12.5px;
+  font-family: inherit;
+  font-weight: 500;
+  color: var(--color-slate-400, #94a3b8);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.rf-sidebar__collapse-btn:hover {
+  background-color: var(--color-slate-50, #f8fafc);
+  color: var(--color-slate-700, #334155);
+}
+
+.rf-sidebar--collapsed .rf-sidebar__collapse-btn {
+  justify-content: center;
+  padding: 10px;
+}
+
+.rf-sidebar__user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  margin-top: 4px;
+  border-radius: 12px;
+  background-color: var(--color-slate-50, #f8fafc);
+  border: 1px solid var(--color-slate-200, #e2e8f0);
+}
+
+.rf-sidebar__user-avatar {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 3px 8px -2px rgba(99, 102, 241, 0.5);
+}
+
+/* small online dot */
+.rf-sidebar__user-avatar::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 2px solid var(--color-slate-50, #f8fafc);
+}
+
+.rf-sidebar__user-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.rf-sidebar__user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-slate-900, #0f172a);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rf-sidebar__user-role {
+  font-size: 11px;
+  color: var(--color-slate-500, #64748b);
+  text-transform: capitalize;
+}
+
+.rf-sidebar__logout {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: none;
+  background: none;
+  color: var(--color-slate-400, #94a3b8);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.rf-sidebar__logout:hover {
+  background-color: var(--color-red-50, #fef2f2);
+  color: var(--color-red-600, #dc2626);
+}
+
+.rf-sidebar--collapsed .rf-sidebar__user {
+  justify-content: center;
+  padding: 8px 0;
+  background: none;
+  border-color: transparent;
+}
+
+/* ---------- Mobile ---------- */
+
+.rf-sb-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 140;
+  background-color: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(2px);
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .rf-sidebar {
+    transform: translateX(-100%);
+    width: 264px;
+    box-shadow: 24px 0 64px -20px rgba(15, 23, 42, 0.25);
+  }
+
+  .rf-sidebar--mobile-open {
+    transform: translateX(0);
+  }
+
+  .rf-sidebar--collapsed {
+    width: 264px;
+  }
+
+  .rf-sb-mobile-close {
+    display: flex;
+  }
+
+  .rf-sb-overlay {
+    display: block;
+  }
+}

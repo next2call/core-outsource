@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "Ringfy Mobile API",
+    "description": "Separate mobile-api project. Login request automatically saves JWT into the collection token variable.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://103.113.27.181/api" },
+    { "key": "token", "value": "" },
+    { "key": "username", "value": "44444" },
+    { "key": "password", "value": "44444" },
+    { "key": "campaignId", "value": "99999" }
+  ],
+  "item": [
+    {
+      "name": "01. Auth",
+      "item": [
+        { "name": "Check User", "request": { "method": "POST", "header": [{"key":"Content-Type","value":"application/json"}], "url": "{{baseUrl}}/auth/check-user", "body": {"mode":"raw","raw":"{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\"\n}"} } },
+        { "name": "Login - creates token", "event": [{ "listen": "test", "script": { "exec": ["const body = pm.response.json();", "pm.test('Login successful', () => pm.expect(body.status).to.eql('success'));", "pm.collectionVariables.set('token', body.token);"] } }], "request": { "method": "POST", "header": [{"key":"Content-Type","value":"application/json"}], "url": "{{baseUrl}}/auth/login", "body": {"mode":"raw","raw":"{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\",\n  \"campaign_id\": \"{{campaignId}}\"\n}"} } },
+        { "name": "Login Status", "request": { "method":"POST", "header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}], "url":"{{baseUrl}}/auth/status", "body":{"mode":"raw","raw":"{}"} } },
+        { "name": "Logout", "request": { "method":"POST", "header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}], "url":"{{baseUrl}}/auth/logout", "body":{"mode":"raw","raw":"{}"} } }
+      ]
+    },
+    {
+      "name": "02. Agent and Calls",
+      "item": [
+        { "name":"Users", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/users","body":{"mode":"raw","raw":"{}"}}},
+        { "name":"Start Break", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/break","body":{"mode":"raw","raw":"{\"break_type\":\"Tea\",\"campaign_id\":\"{{campaignId}}\"}"}}},
+        { "name":"Ready", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/break","body":{"mode":"raw","raw":"{\"break_type\":\"Ready\",\"campaign_id\":\"{{campaignId}}\"}"}}},
+        { "name":"Call History", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/calls/history","body":{"mode":"raw","raw":"{\"draw\":1,\"start\":0,\"length\":10,\"search\":{\"value\":\"\"}}"}}},
+        { "name":"Call Counts", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/dashboard/call-counts","body":{"mode":"raw","raw":"{\"filter_data\":\"today\"}"}}},
+        { "name":"Summary", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/dashboard/summary","body":{"mode":"raw","raw":"{\"status\":\"Ready\"}"}}},
+        { "name":"Softphone Config", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/calls/sip","body":{"mode":"raw","raw":"{}"}}}
+      ]
+    },
+    {
+      "name": "03. Mobile Features",
+      "item": [
+        { "name":"Create Reminder", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/reminders","body":{"mode":"raw","raw":"{\"datetime\":\"2026-07-21 10:00:00\",\"message\":\"Call customer\"}"}}},
+        { "name":"List Reminders", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/reminders","body":{"mode":"raw","raw":"{\"action\":\"list\"}"}}},
+        { "name":"Submit Feedback", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/feedback","body":{"mode":"raw","raw":"{\"name\":\"Customer\",\"mobile\":\"9876543210\",\"disposition\":\"Interested\",\"remarks\":\"Callback tomorrow\"}"}}},
+        { "name":"Get Feedback", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/feedback","body":{"mode":"raw","raw":"{\"action\":\"get\",\"mobile\":\"9876543210\"}"}}},
+        { "name":"Send Message", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/messages","body":{"mode":"raw","raw":"{\"receiver_id\":\"77777\",\"message\":\"Hello\"}"}}},
+        { "name":"List Messages", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/messages","body":{"mode":"raw","raw":"{\"action\":\"list\",\"receiver_id\":\"77777\"}"}}},
+        { "name":"Mark Messages Read", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/messages","body":{"mode":"raw","raw":"{\"action\":\"read\",\"sender_id\":\"77777\"}"}}},
+        { "name":"Chat History", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/chat-history","body":{"mode":"raw","raw":"{}"}}},
+        { "name":"Search User", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/users/search","body":{"mode":"raw","raw":"{\"search\":\"77777\"}"}}},
+        { "name":"Block Number", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/blocked-numbers","body":{"mode":"raw","raw":"{\"number\":\"9876543210\",\"status\":\"block\"}"}}},
+        { "name":"Store Device Token", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/device-token","body":{"mode":"raw","raw":"{\"extension\":\"{{username}}\",\"token\":\"fcm-token-here\"}"}}}
+      ]
+    },
+    {
+      "name": "04. Brighto",
+      "item": [
+        { "name":"Pending Leads", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/brighto/leads","body":{"mode":"raw","raw":"{}"}}},
+        { "name":"Lead by Number", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/brighto/lead","body":{"mode":"raw","raw":"{\"number\":\"8800826129\"}"}}},
+        { "name":"Answers", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/brighto/answers","body":{"mode":"raw","raw":"{}"}}},
+        { "name":"Submit Answer", "request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"url":"{{baseUrl}}/brighto/answer","body":{"mode":"raw","raw":"{\"agreement_no\":\"AG-1001\",\"up_data_id\":12,\"customer_name\":\"Customer\",\"mobile_number\":\"8800826129\",\"template\":\"Interested\"}"}}}
+      ]
+    }
+  ]
+}
